@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
   pull_request:
 
 permissions:
@@ -56,5 +57,4 @@ jobs:
 
       # Prepend any command with "nx record --" to record its logs to Nx Cloud
       # - run: npx nx record -- echo Hello World
-      - name: lint
       - run: npx nx run-many -t lint test build typecheck
