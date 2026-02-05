@@ -41,19 +41,16 @@ jobs:
       - run: npx nx fix-ci
         if: always()
   test:
-    runs-on: ubuntu-latest
+    runs-on: namespace-profile-large
     steps:
-      - uses: actions/checkout@v4
+      - uses: namespacelabs/nscloud-checkout-action@v8
         with:
-          filter: tree:0
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
+        name: bootstrap
         with:
-          node-version: 20
-          cache: 'npm'
-
-      - run: npm ci
+          node-version: 20.x
 
       # Prepend any command with "nx record --" to record its logs to Nx Cloud
       # - run: npx nx record -- echo Hello World
