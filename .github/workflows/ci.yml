@@ -42,6 +42,13 @@ jobs:
         if: always()
   test:
     runs-on: namespace-profile-large
+    if: |
+      contains(github.event.head_commit.message, 'skip ci') == false &&
+      needs.optimize_ci.outputs.skip == 'false' &&
+      !startsWith(github.event.pull_request.title, 'docs:') &&
+      !startsWith(github.event.pull_request.title, 'style:')
+    env:
+      CI: true
     steps:
       - uses: namespacelabs/nscloud-checkout-action@v8
         with:
