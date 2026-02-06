@@ -42,3 +42,7 @@ Thumbs.db
 .nx/workspace-data
 
 test-output
+
+.pnp.cjs
+.pnp.loader.mjs
+.yarn/install-state.gz
