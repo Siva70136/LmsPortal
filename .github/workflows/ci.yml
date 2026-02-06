@@ -54,10 +54,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
-      - name: bootstrap
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: '20.x'
+
 
       - name: lint
         run: npx nx run @apps/LmsPortal:lint
