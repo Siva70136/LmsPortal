@@ -12,53 +12,33 @@ permissions:
   contents: read
 
 jobs:
-  main:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          filter: tree:0
-          fetch-depth: 0
-
-      # This enables task distribution via Nx Cloud
-      # Run this command as early as possible, before dependencies are installed
-      # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#npx-nxcloud-startcirun
-      # Uncomment this line to enable task distribution
-      # - run: npx nx start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="build"
-
-      # Cache node_modules
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-
-      - run: npm ci
-
-      # Prepend any command with "nx record --" to record its logs to Nx Cloud
-      # - run: npx nx record -- echo Hello World
-      - run: npx nx run-many -t lint test build typecheck
-      # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
-      - run: npx nx fix-ci
-        if: always()
   test:
-    runs-on: ubuntu-22.04
+    runs-on: namespace-profile-large
+    if: |
+      contains(github.event.head_commit.message, 'skip ci') == false &&
+      needs.optimize_ci.outputs.skip == 'false' &&
+      !startsWith(github.event.pull_request.title, 'docs:') &&
+      !startsWith(github.event.pull_request.title, 'style:')
     env:
       CI: true
+    permissions:
+          contents: read
+          id-token: write
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: namespacelabs/nscloud-checkout-action@v8
         with:
-          node-version: '20.x'
-      - name: install
-        run: yarn install
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+      - name: bootstrap
+        with:
+          node-version: 20.x
 
       - name: lint
         run: npx nx run @apps/LmsPortal:lint
 
       - name: format
-        run: npx nx run @apps/LmsPortal:format
+        run: npx nx format:write
 
       - name: build
         run: npx nx run-many -t lint test build typecheck
