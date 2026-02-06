@@ -35,6 +35,6 @@
     "baseUrl": ".",
     "rootDir": ".",
     "customConditions": ["@lms-portal/source"],
-    "exclude": ["node_modules", "jest.config.cts"],
   },
+  "exclude": ["node_modules"],
 }
