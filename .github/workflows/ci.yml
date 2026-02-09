@@ -53,7 +53,7 @@ jobs:
           NODE
 
       - name: install
-        run: yarn install --immutable --inline-builds
+        run: yarn install --immutable
 
       - name: format
         run: yarn nx format:check --base=$NX_BASE --head=$NX_HEAD
