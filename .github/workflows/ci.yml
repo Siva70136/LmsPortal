@@ -40,6 +40,12 @@ jobs:
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
+      - name: disable nx cloud
+        run: |-
+          sudo apt-get update && sudo apt-get install moreutils -y
+          jq '.neverConnectToCloud = true' nx.json | sponge nx.json
+          jq 'del(.nxCloudId)' nx.json | sponge nx.json
+
       - name: install
         run: yarn install
 
