@@ -28,7 +28,7 @@ jobs:
 
       - name : install
         run : yarn install
-      - uses: reviewpad/action@v3
+      - uses: reviewpad/action@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
