@@ -11,29 +11,55 @@ permissions:
   actions: read
   contents: read
 
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: false
+
 jobs:
   test:
     runs-on: ubuntu-22.04
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
-      
+      - name: Setup yarn version
+        run: |-
+          corepack enable
+          yarn set version 4.12.0
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          
-      - name : install
-        run : yarn install
+          cache: 'yarn'
+          cache-dependency-path: 'yarn.lock'
 
-      - name: lint
-        run: npx nx run @apps/LmsPortal:lint
+      - uses: nrwl/nx-set-shas@v4
+        with:
+          main-branch-name: 'develop'
+
+      - name: disable nx cloud
+        run: |-
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'nx.json';
+          const nx = JSON.parse(fs.readFileSync(path, 'utf8'));
+          nx.neverConnectToCloud = true;
+          delete nx.nxCloudId;
+          fs.writeFileSync(path, JSON.stringify(nx, null, 2));
+          NODE
+
+      - name: install
+        run: yarn install --immutable --inline-builds
 
       - name: format
-        run: npx nx format:write
+        run: yarn nx format:check --base=$NX_BASE --head=$NX_HEAD
 
-      - name: build
-        run: npx nx run-many -t lint test build typecheck
+      - name: lint
+        run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} yarn nx affected --base=$NX_BASE --head=$NX_HEAD -t lint --parallel=4
+
+      - name: test
+        run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} yarn nx affected --base=$NX_BASE --head=$NX_HEAD -t test -c ci --parallel=1
