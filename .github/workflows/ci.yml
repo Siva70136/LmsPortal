@@ -56,12 +56,11 @@ jobs:
         run: yarn install
 
 
-#      - name: format
-#        run: yarn nx format:write
+      - name: format
+        run: yarn nx format:write
 
       - name: lint
-        run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npx nx affected --base=$NX_BASE --head=$NX_HEAD -t lint --parallel=4
+        run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} yarn nx affected --base=$NX_BASE --head=$NX_HEAD -t lint --parallel=4
 
       - name: test
-        run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npx nx affected --base=$NX_BASE --head=$NX_HEAD -t test -c ci --parallel=1
-
+        run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} yarn nx affected --base=$NX_BASE --head=$NX_HEAD -t test -c ci --parallel=1
