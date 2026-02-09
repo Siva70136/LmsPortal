@@ -7,38 +7,53 @@ on:
       - develop
   pull_request:
 
-permissions:
-  actions: read
-  contents: read
-
 jobs:
-  test:
+  code-analysis:
+    name: CodeQL
     runs-on: ubuntu-22.04
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      matrix:
+        language: ['javascript']
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          
+
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-         languages: ${{ matrix.language }}
+          languages: ${{ matrix.language }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
         with:
-         category: "/language:${{matrix.language}}"         
+          category: "/language:${{ matrix.language }}"
 
-      - name : install
-        run : yarn install
+  quality:
+    name: Lint Format Build
+    runs-on: ubuntu-22.04
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: install
+        run: yarn install
 
       - name: lint
         run: npx nx run @apps/LmsPortal:lint
