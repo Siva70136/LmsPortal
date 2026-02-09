@@ -11,7 +11,13 @@ permissions:
   actions: read
   contents: read
 
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: false
+
 jobs:
+  env :
+    CI : true
   test:
     runs-on: ubuntu-22.04
     steps:
