@@ -56,10 +56,10 @@ jobs:
         run: yarn install
 
       - name: lint
-        run: npx nx run @apps/LmsPortal:lint
+        run: yarn nx run @apps/LmsPortal:lint
 
       - name: format
-        run: npx nx format:write
+        run: yarn nx format:write
 
       - name: build
-        run: npx nx run-many -t lint test build typecheck
+        run: yarn nx run-many -t lint test build typecheck
