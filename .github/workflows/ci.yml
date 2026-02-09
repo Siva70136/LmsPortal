@@ -55,11 +55,13 @@ jobs:
       - name: install
         run: yarn install
 
+
+#      - name: format
+#        run: yarn nx format:write
+
       - name: lint
-        run: yarn nx run @apps/LmsPortal:lint
+        run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npx nx affected --base=$NX_BASE --head=$NX_HEAD -t lint --parallel=4
 
-      - name: format
-        run: yarn nx format:write
+      - name: test
+        run: INPUT_GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} npx nx affected --base=$NX_BASE --head=$NX_HEAD -t test -c ci --parallel=1
 
-      - name: build
-        run: yarn nx run-many -t lint test build typecheck

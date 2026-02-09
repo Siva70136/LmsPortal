@@ -1,8 +1,5 @@
 {
   "name": "@apps/LmsPortal",
   "version": "0.0.1",
-  "private": true,
-  "devDependencies": {
-    "@nx/rspack": "22.4.5"
-  }
+  "private": true
 }
