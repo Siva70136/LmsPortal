@@ -3,11 +3,20 @@
   "include": [],
   "references": [
     {
-      "path": "./tsconfig.app.json"
+      "path": "./tsconfig.app.json",
     },
     {
-      "path": "./tsconfig.spec.json"
-    }
+      "path": "./tsconfig.spec.json",
+    },
   ],
-  "extends": "../../tsconfig.base.json"
+  "paths": {
+    "@components/*": ["src/components/*"],
+    "@containers/*": ["src/containers/*"],
+    "@utils/*": ["src/utils/*"],
+    "@hooks/*": ["src/hooks/*"],
+    "@contexts/*": ["src/contexts/*"],
+    "@assets/*": ["src/assets/*"],
+    "@store/*": ["src/store/*"],
+  },
+  "extends": "../../tsconfig.base.json",
 }
