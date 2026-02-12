@@ -10,6 +10,7 @@
       "@nx/react/typings/cssmodule.d.ts",
       "@nx/react/typings/image.d.ts",
     ],
+    "baseUrl": ".",
     "rootDir": "src",
     "paths": {
       "@components/*": ["src/components/*"],
@@ -19,6 +20,7 @@
       "@contexts/*": ["src/contexts/*"],
       "@assets/*": ["src/assets/*"],
       "@store/*": ["src/store/*"],
+      "@type/*": ["src/types/*"],
     },
   },
   "exclude": [
