@@ -4,9 +4,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@types/pouchdb": "^6.4.2",
     "dexie": "^3",
-    "pouchdb-adapter-idb": "^9.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "6.30.3",
@@ -44,6 +42,7 @@
     "eslint-plugin-jsx-a11y": "6.10.1",
     "eslint-plugin-react": "7.35.0",
     "eslint-plugin-react-hooks": "5.0.0",
+    "fake-indexeddb": "^6.2.5",
     "jest": "^30.0.2",
     "jest-environment-jsdom": "^30.0.2",
     "jest-util": "^30.0.2",
