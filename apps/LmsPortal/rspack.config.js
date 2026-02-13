@@ -31,4 +31,15 @@ module.exports = {
       // svgr: false
     }),
   ],
+  resolve: {
+    alias: {
+      '@containers': join(__dirname, 'src/containers'),
+      '@components': join(__dirname, 'src/components'),
+      '@contexts': join(__dirname, 'src/contexts'),
+      '@utils': join(__dirname, 'src/utils'),
+      '@hooks': join(__dirname, 'src/hooks'),
+      '@store': join(__dirname, 'src/store'),
+      '@types': join(__dirname, 'src/types'),
+    },
+  },
 };
